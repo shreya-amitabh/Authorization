@@ -26,15 +26,13 @@ public class AuthHandler {
     }
 
     public boolean isUserAuthorized(String path, String userId) {
-        String uniqueId= userId.substring(16, userId.length()-1);
-        Optional<UserRole> userRole= userRoleRepository.findByUniqueId(uniqueId);
+        Optional<UserRole> userRole= userRoleRepository.findByUniqueId(userId);
         if(!userRole.isPresent())
             return false;
         RestTemplate restTemplate= new RestTemplate();
         Map<String, Object> input = new HashMap<>();
 
         input.put("authorities", userRole.get().getRole());
-      //  input.put("method", "GET");
         input.put("path", path);
 
 
